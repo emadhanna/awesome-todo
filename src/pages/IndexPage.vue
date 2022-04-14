@@ -1,52 +1,58 @@
 <template>
   <q-page class="flex flex-center" padding>
-    <!-- <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    > -->
-    <!-- <h5>I love Vue.js</h5> -->
-    <!-- <h5>I love Vue.JS!</h5> -->
-    <q-card class="my-card" style="width: 600px">
-      <q-card-section>
-        <div class="text-h4">
-          T0-Do List
-        </div>
-      </q-card-section>
-      <q-card-section>
-        <div class="row justify-center">
-          <div class="col-12 q-pd-md">
-            <q-input v-model="todoTask" label="Input Task">
-            <template v-slot:after>
-              <q-btn round dense flat icon="send" @click="addItem" />
-            </template>
-            </q-input>
-          </div>
-        </div>
-      </q-card-section>
+    <div class="inline-block">
+      <div>
+        <!-- <q-btn glossy icon="run_circle" color="primary" text-color="white" label="Click Me!" /> -->
+        <!-- <q-btn glossy icon-right="run_circle" color="primary" text-color="white" label="Click Me!" /> -->
+        <q-btn glossy icon="school" icon-right="run_circle" color="primary" text-color="white" label="Click Me!" />
+      </div>
+      <div class="q-py-md">
+        <q-btn rounded glossy icon="mail" icon-right="danger" color="secondary" text-color="Black" label="Click Me!" :loading="isLoading" />
+      </div>
+      <div class="q-py-md">
+        <q-btn rounded>
+          <q-avatar size="50px">
+            <img src="~assets/quasar-logo-vertical.svg" />
+          </q-avatar>
+        </q-btn>
+      </div>
+      <div class="q-py-md">
+        <!-- <q-btn flat rounded color="orange" icon="mail" label="Click Me!"/> -->
+        <!-- <q-btn flat round color="orange" icon="mail" /> -->
+        <!-- <q-btn outline rounded color="orange" label="Click Me!" /> -->
+        <q-btn :ripple="{ color: 'yellow' }" align="around" push rounded color="orange" label="Click Me!" />
+      </div>
+      <div  class="q-py-md">
+        <q-btn-group rounded>
+          <q-btn rounded label="Home" />
+          <q-btn rounded label="People" />
+          <q-btn rounded label="Message" />
+        </q-btn-group>
+      </div>
+      <div class="q-pa-md">
+        <q-btn-dropdown color="primary" label="Dropdown Button">
+          <q-list>
+            <q-item clickable v-close-popup @click="onItemClick('Photos')">
+              <q-item-section>
+                <q-item-label>Photos</q-item-label>
+              </q-item-section>
+            </q-item>
 
-      <q-separator />
+            <q-item clickable v-close-popup @click="onItemClick('Videos')">
+              <q-item-section>
+                <q-item-label>Videos</q-item-label>
+              </q-item-section>
+            </q-item>
 
-      <q-card-section v-if="todoList.length > 0">
-        <div class="row justify-center" v-for="(item, index) in todoList" :key="index">
-          <div class="col-8 q-py-md">
-            {{ item.value }}
-          </div>
-          <div class="col-auto q-py-md">
-            <q-btn round dense flat icon="done" @click="removeItem(index)" />
-          </div>
-        </div>
-      </q-card-section>
-      <q-card-section v-else>
-        <div class="row justify-center">
-          <div class="col-auto">
-            <div class="text-h6">
-              {{ noItemsFound }}
-            </div>
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
+            <q-item clickable v-close-popup @click="onItemClick('Arcticles')">
+              <q-item-section>
+                <q-item-label>Articles</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -57,20 +63,14 @@
     name: 'IndexPage',
     data () {
       return {
-        todoTask: '',
-        noItemsFound: 'No Items Found',
-        todoList: [
-          { value: "Create An App"},
-          { value: "Build An App"}
-        ]
+       isLoading: true,
+       useData: false,
+       useWifi: false
       }
     },
     methods: {
-      addItem () {
-        this.todoList.push( { value: this.todoTask} )
-      },
-      removeItem(index){
-        this.todoList.splice( index, 1 )
+      onItemClick (item) {
+        console.log('You Have Clicked ' +  item + '!')
       }
     }
   })
