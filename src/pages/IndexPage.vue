@@ -1,58 +1,25 @@
 <template>
-  <q-page class="flex flex-center" padding>
-    <div class="inline-block">
-      <div>
-        <!-- <q-btn glossy icon="run_circle" color="primary" text-color="white" label="Click Me!" /> -->
-        <!-- <q-btn glossy icon-right="run_circle" color="primary" text-color="white" label="Click Me!" /> -->
-        <q-btn glossy icon="school" icon-right="run_circle" color="primary" text-color="white" label="Click Me!" />
-      </div>
-      <div class="q-py-md">
-        <q-btn rounded glossy icon="mail" icon-right="danger" color="secondary" text-color="Black" label="Click Me!" :loading="isLoading" />
-      </div>
-      <div class="q-py-md">
-        <q-btn rounded>
-          <q-avatar size="50px">
-            <img src="~assets/quasar-logo-vertical.svg" />
-          </q-avatar>
-        </q-btn>
-      </div>
-      <div class="q-py-md">
-        <!-- <q-btn flat rounded color="orange" icon="mail" label="Click Me!"/> -->
-        <!-- <q-btn flat round color="orange" icon="mail" /> -->
-        <!-- <q-btn outline rounded color="orange" label="Click Me!" /> -->
-        <q-btn :ripple="{ color: 'yellow' }" align="around" push rounded color="orange" label="Click Me!" />
-      </div>
-      <div  class="q-py-md">
-        <q-btn-group rounded>
-          <q-btn rounded label="Home" />
-          <q-btn rounded label="People" />
-          <q-btn rounded label="Message" />
-        </q-btn-group>
-      </div>
-      <div class="q-pa-md">
-        <q-btn-dropdown color="primary" label="Dropdown Button">
-          <q-list>
-            <q-item clickable v-close-popup @click="onItemClick('Photos')">
-              <q-item-section>
-                <q-item-label>Photos</q-item-label>
-              </q-item-section>
-            </q-item>
+  <!-- <q-page class="flex flex-center" padding> -->
+  <q-page padding>
+    <button style="position: absolute; right: 10px" @click="counter++">{{ counter }}</button>
+    <!-- <input v-model="message" @keyup="handleKeyUp"/> -->
+    <!-- <input v-model="message" @keyup.esc="handleKeyUp" @keyup.enter="alertMessage" @mouseenter="alertMessage"/> -->
+    <!-- <input v-model="message" @keyup.esc="handleKeyUp" @keyup.enter="alertMessage" @mouseleave="alertMessage"/> -->
+    <!-- <input v-model="message" @keyup.esc="handleKeyUp" @keyup.enter="alertMessage" v-autofocus v-bind:class="{ 'error': message.length > 22}"/> -->
+    <input v-model="message" @keyup.esc="handleKeyUp" @keyup.enter="alertMessage" v-autofocus :style="errorStyle" ref="messageInput" />
+    <!-- <button @click="message= ''">Clear Message</button> -->
+    <button @click="clearMessage">Clear Message</button>
+    <div>{{ message.length }}</div>
+    <!-- <h5 class="border-grey" v-show="message.length">{{ message }}</h5> -->
+    <h5 class="border-grey" v-if="message.length">{{ message }}</h5>
+    <h6 v-else>No Message Entered</h6>
 
-            <q-item clickable v-close-popup @click="onItemClick('Videos')">
-              <q-item-section>
-                <q-item-label>Videos</q-item-label>
-              </q-item-section>
-            </q-item>
+    <hr>
 
-            <q-item clickable v-close-popup @click="onItemClick('Arcticles')">
-              <q-item-section>
-                <q-item-label>Articles</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </div>
-    </div>
+    <!-- <p>Uppercase Message: {{ messageUppercase() }}</p> -->
+    <p>Uppercase Message: {{ messageUppercase }}</p>
+    <!-- <p>Lowercase Message: {{ message | messageLowercase }}</p> -->
+    <p>Lowercase Message: {{ messageLowercase }}</p>
   </q-page>
 </template>
 
@@ -63,18 +30,91 @@
     name: 'IndexPage',
     data () {
       return {
-       isLoading: true,
-       useData: false,
-       useWifi: false
+        message: 'I love Vue.Js Coding!',
+        counter: 0
+      }
+    },
+    computed: {
+      messageUppercase() {
+        console.log('messageUpercase Was Fired')
+        return this.message.toUpperCase() + this.counter
+      },
+      messageLowercase() {
+        console.log('messageLowercase Was fired')
+        return this.message.toLowerCase() + this.counter
+      },
+      errorStyle() {
+        if (this.message.length > 22){
+          return {
+            'color': 'red',
+            'background': 'pink'
+          }
+        }
       }
     },
     methods: {
-      onItemClick (item) {
-        console.log('You Have Clicked ' +  item + '!')
+      clearMessage () {
+        this.message = ''
+      },
+      alertMessage (){
+        alert(this.message)
+      },
+      handleKeyUp (e){
+        console.log(e)
+        if (e.keyCode == 27) {
+          this.clearMessage()
+        }
+        else if (e.keyCode == 13){
+          this.alertMessage()
+        }
       }
-    }
+    },
+    directives: {
+      autofocus: {
+        inserted (element) {
+          element.focus()
+        }
+      }
+    },
+    // beforeCreate() {
+    //   console.log('beforeCreate!!!!')
+    // },
+    // beforeCreate() {
+    //   console.log('created!!!!')
+    // },
+    // beforeMount() {
+    //   console.log('beforeMount!!!!')
+    // },
+    mounted() {
+      console.log('mounted!!!!')
+      console.log(this.$refs)
+      this.$refs.messageInput.className = 'bg-green'
+    },
+    // beforeUpdate() {
+    //   console.log('beforeUpdate!!!!')
+    // },
+    // updated() {
+    //   console.log('Updated!!!!')
+    // },
+    // beforeDestroy() {
+    //   console.log('beforeDestroy!!!!')
+    // },
+    // destroyed() {
+    //   console.log('destroyed!!!!')
+    // }
   })
 </script>
 <style scoped>
+  .border-grey {
+    border: 1px solid grey;
+  }
 
+  input, button {
+    font-size: 23px;
+  }
+
+  .error {
+    color: red;
+    background: pink;
+  }
 </style>>
