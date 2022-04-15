@@ -1,14 +1,12 @@
 <template>
-  <q-item
+  <!-- <q-item
     clickable
     tag="a"
     target="_blank"
     :href="link"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
+  > -->
+  <q-item clickable exact :to="link" class="text-grey-5">
+    <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
 
